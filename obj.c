@@ -1,5 +1,6 @@
 #include "obj.h"
 #include <stdio.h>
+#include <assert.h>
 #include "framework/mm.h"
 
 Obj* obj_load(char *filename)
@@ -7,12 +8,11 @@ Obj* obj_load(char *filename)
 	printf("%s\n", "Start obj parser");
 
 	Obj* obj = (Obj *)cg_malloc(sizeof(Obj));
-	obj->vertexes = (List *)cg_malloc(sizeof(List));
-	obj->normals = (List *)cg_malloc(sizeof(List));
-	obj->textures = (List *)cg_malloc(sizeof(List));
-	obj->faces = (List *)cg_malloc(sizeof(List));
+	obj->vertexes = list_new();
+	obj->normals = list_new();
+	obj->textures = list_new();
+	obj->faces = list_new();
 
-	Block* block = (Block *)cg_malloc(sizeof(Block));
 	Vertex v;
 	v.x = -0.500000;
 	v.y = -0.500000;
@@ -37,11 +37,11 @@ Obj* obj_load(char *filename)
 
 	Block* b2 = (Block *)cg_malloc(sizeof(Block));
 	b2->data = cg_malloc(sizeof(Vertex));
-	b2->data = &v2;
+	b2->data = &v1;
 
 	Block* b3 = (Block *)cg_malloc(sizeof(Block));
 	b3->data = cg_malloc(sizeof(Vertex));
-	b3->data = &v3;
+	b3->data = &v2;
 
 	list_add(obj->vertexes, block);
 	list_add(obj->vertexes, b2);
@@ -51,12 +51,10 @@ Obj* obj_load(char *filename)
 
 	printf("Pointr bd %p\n", block->data);
 	printf("Size v %d\n", sizeof(Vertex));
-    
-    //((Vertex *) *block).data = v;
 
 	Vertex * p = (Vertex *)block->data;
 
-	printf("Vertex from data x:%f\ty:%f\tz:%f\n", p->x, p->y, p->z);
+	printf("Vertex from data x:%f\ty:%f\tz:%f\n", block->data->x, p->y, p->z);
     return obj;
 }
 

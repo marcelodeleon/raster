@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "list.h"
 #include "framework/mm.h"
 
@@ -22,17 +23,25 @@ void list_free(List* l)
 void list_add(List* l, Block* b)
 {	
 	//Si la lista no contiene elementos tail y head son el mismo bloque
+	printf("Element count %d\n", l->elementCount);
 	if(l->elementCount == 0)
 	{
+		printf("%s\n", "No elements");
         l->head = b;
+        printf("%s\n", "added head");
         l->tail = b;
+        printf("%s\n", "added tail");
     } else 
     {
+    	printf("%s\n", "Elements!");
         l->tail->next = b;
+        printf("%s\n", "Next");
         l->tail = b;
+        printf("%s\n", "tail!");
     }
 
 	l->elementCount++;
+	printf("%s\n", "yeeeey");
 }
 
 unsigned int list_size(List* l)
