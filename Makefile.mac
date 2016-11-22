@@ -1,0 +1,50 @@
+# Edite los siguientes valores para configurar
+# acorde a su ambiente de desarrollo:
+
+# ubicacion del directorio "include" del ambiente:
+INCLUDES=`sdl-config --cflags`
+
+# ubicacion del directorio "lib" del ambiente:
+LIB_DIRS=`sdl-config --libs`
+
+# agregue aqui, separado con espacios, cada archivo .c que produzca.
+# renombre la extension .c a .o (ejemplo.c -> ejemplo.o):
+OBJECTS = framework/color.o framework/mm.o framework/canvas.o main.o
+
+# nombre a asignar al ejecutable producido:
+EXE = cg
+
+# No edite por debajo de esta linea
+
+CC = gcc
+
+CFLAGS = -Wall -Werror -DAPPLEMAC -std=c99
+LD_FLAGS = 
+#LD_FLAGS = -lSDLmain -lSDL
+
+CPPCHECK = cppcheck --enable=all --error-exitcode=255 -f
+
+all: $(EXE)
+
+main.o: main.c Makefile.mac
+	@echo "\nBuilding $@..."
+	@$(CPPCHECK) $<
+	@$(CC) -c $< $(INCLUDES) $(CFLAGS) -o $@
+
+%.o: %.c %.h Makefile.mac
+	@echo "\nBuilding $@..."
+	@$(CPPCHECK) $<
+	@$(CC) -c $< $(INCLUDES) $(CFLAGS) -o $@
+
+
+$(EXE): $(OBJECTS)
+	@echo "\nLinking..."
+	@$(CC) $(OBJECTS) $(INCLUDES) $(CFLAGS) $(LIB_DIRS) $(LD_FLAGS) -o $(EXE)
+	@echo "Generated $(EXE)"
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f $(OBJECTS) $(EXE)
+
+run: all
+	./$(EXE)

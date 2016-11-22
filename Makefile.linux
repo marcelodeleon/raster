@@ -1,0 +1,50 @@
+# Edite los siguientes valores para configurar
+# acorde a su ambiente de desarrollo:
+
+# ubicacion del directorio "include" del ambiente:
+INCLUDES=`sdl-config --cflags` -I/usr/include/GL
+
+# ubicacion del directorio "lib" del ambiente:
+LIB_DIRS=`sdl-config --libs` -lGLU -lGL -lSDL_image
+
+# agregue aqui, separado con espacios, cada archivo .c que produzca.
+# renombre la extension .c a .o (ejemplo.c -> ejemplo.o):
+OBJECTS = framework/color.o framework/mm.o framework/canvas.o main.o obj.o shader.o list.o
+
+# nombre a asignar al .exe producido:
+EXE = cg
+
+# No edite por debajo de esta linea
+
+CC = gcc
+
+CFLAGS = -Wall -std=c99 -ggdb -O0 -DGL_GLEXT_PROTOTYPES
+LD_FLAGS =
+#LD_FLAGS = -lSDLmain -lSDL
+
+#CPPCHECK = cppcheck --enable=all --error-exitcode=255 -f
+
+all: $(EXE)
+
+main.o: main.c Makefile.linux
+	@echo "Building $@..."
+	#@$(CPPCHECK) $<
+	@$(CC) -c $< $(INCLUDES) $(CFLAGS) -o $@
+
+%.o: %.c %.h Makefile.linux
+	@echo "Building $@..."
+	#@$(CPPCHECK) $<
+	@$(CC) -c $< $(INCLUDES) $(CFLAGS) -o $@
+
+
+$(EXE): $(OBJECTS)
+	@echo "Linking..."
+	@$(CC) $(OBJECTS) $(INCLUDES) $(CFLAGS) $(LIB_DIRS) $(LD_FLAGS) -o $(EXE)
+	@echo "Generated $(EXE)"
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f $(OBJECTS) $(EXE)
+
+run: all
+	./$(EXE)
