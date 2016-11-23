@@ -3,12 +3,7 @@
 
 #include "list.h"
 #include "point3D.h"
-
-typedef struct
-{
-	float x;
-	float y;
-} Point2D;
+#include "point2D.h"
 
 typedef struct
 {
