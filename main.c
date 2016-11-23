@@ -223,7 +223,7 @@ int main(int argc, char* argv[])
 
  //        cg_repaint();
 	// }
- //    obj_free(box);
+    obj_free(box);
  //    shader_free(gouraud);
  //    glDeleteTextures(1,&texture);
 	// Liberar recursos:

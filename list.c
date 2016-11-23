@@ -15,13 +15,6 @@ List* list_new(int dataSize)
 	return list;
 }
 
-void list_free(List* l)
-{
-	cg_free(l->head);
-	cg_free(l->tail);
-	cg_free(l);
-}
-
 void list_add(List* l, void* data)
 {	
 	Block* b = (Block *)cg_malloc(sizeof(Block));
@@ -72,7 +65,7 @@ void* list_get_nth(List* list, int index)
 	// Chequea que la lista no esté vacía
 	if(list_empty(list) == 0)
 	{
-		printf("%s\n", "Emtpy list!");
+		printf("%s\n", "Lista Vacía!");
 		assert(0);
 	}
 
@@ -83,4 +76,18 @@ void* list_get_nth(List* list, int index)
 	}
 
 	return current->data;
+}
+
+void list_free(List* l)
+{
+	// Si tail y head apuntan al mismo espacio de memoria solamente liberamos uno.
+	if (l->head == l->tail)
+	{
+		cg_free(l->head);	
+	}else {
+		cg_free(l->head);
+	    cg_free(l->tail);	
+	}
+	
+	cg_free(l);
 }

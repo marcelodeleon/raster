@@ -76,5 +76,9 @@ void obj_render(Obj * obj)
 
 void obj_free (Obj * obj)
 {
-	printf("%s\n", "obj free");
+	list_free(obj->vertexes);
+	//list_free(obj->normals);
+	list_free(obj->textures);
+	list_free(obj->faces);
+	cg_free(obj);
 }
