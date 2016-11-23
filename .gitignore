@@ -1,2 +1,3 @@
 *.o
 cg
+framework/*.o
