@@ -7,54 +7,31 @@ Obj* obj_load(char *filename)
 {
 	printf("%s\n", "Start obj parser");
 
+	//Initialize Obj struct
 	Obj* obj = (Obj *)cg_malloc(sizeof(Obj));
-	obj->vertexes = list_new();
-	obj->normals = list_new();
-	obj->textures = list_new();
-	obj->faces = list_new();
+	obj->vertexes = list_new(sizeof(Point3D));
+	obj->normals = list_new(sizeof(Point3D));
+	obj->textures = list_new(sizeof(Point2D));
+	obj->faces = list_new(sizeof(Face));
 
-	Vertex v;
-	v.x = -0.500000;
-	v.y = -0.500000;
-	v.z = -0.500000;
+	Point3D v = point3D_new(-0.500000, -0.500000, -0.500000);
+	Point3D v1 = point3D_new(-0.500000, -0.500000, -0.500000);
+	Point3D v2 = point3D_new(-0.500000, -0.500000, -0.500000);
 
-	Vertex v1;
-	v1.x = -0.500000;
-	v1.y = -0.500000;
-	v1.z = -0.500000;
-
-	Vertex v2;
-	v2.x = -0.500000;
-	v2.y = -0.500000;
-	v2.z = -0.500000;
-
-	printf("Vertex x:%f\ty:%f\tz:%f\n", v.x, v.y, v.z);
+	printf("Point3D x:%f\ty:%f\tz:%f\n", v.x, v.y, v.z);
     printf("Pointr v %p\n", &v);
 
-	Block* block = (Block *)cg_malloc(sizeof(Block));
-	block->data = cg_malloc(sizeof(Vertex));
-	block->data = &v;
-
-	Block* b2 = (Block *)cg_malloc(sizeof(Block));
-	b2->data = cg_malloc(sizeof(Vertex));
-	b2->data = &v1;
-
-	Block* b3 = (Block *)cg_malloc(sizeof(Block));
-	b3->data = cg_malloc(sizeof(Vertex));
-	b3->data = &v2;
-
-	list_add(obj->vertexes, block);
-	list_add(obj->vertexes, b2);
-	list_add(obj->vertexes, b3);
+	list_add(obj->vertexes, &v);
+	list_add(obj->vertexes, &v1);
+	list_add(obj->vertexes, &v2);
 
 	assert(list_size(obj->vertexes) == 3);
 
-	printf("Pointr bd %p\n", block->data);
-	printf("Size v %d\n", sizeof(Vertex));
+	printf("Size v %d\n", sizeof(Point3D));
 
-	Vertex * p = (Vertex *)block->data;
-
-	printf("Vertex from data x:%f\ty:%f\tz:%f\n", block->data->x, p->y, p->z);
+	Point3D * p = (Point3D *)(((Block *)obj->vertexes->head)->data);
+ 
+	printf("Point3D from data x:%f\ty:%f\tz:%f\n", p->x, p->y, p->z);
     return obj;
 }
 

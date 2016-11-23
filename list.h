@@ -11,13 +11,14 @@ typedef struct BlockStruct Block;
 
 typedef struct List
 {
+    int dataSize;
     int elementCount;
     Block* head;
     Block* tail;
 }List;
 
 //Crea una nueva lista vacía.
-List* list_new();
+List* list_new(int dataSize);
 
 // Devuelve 1 si la lista se encuentra vacía 0 en otro caso.
 int list_empty(List* l);
@@ -26,7 +27,7 @@ int list_empty(List* l);
 unsigned int list_size(List* l);
 
 // Agrega el bloque b como ultimo elemento de la lista l.
-void list_add(List* l, Block* b);
+void list_add(List* l, void* data);
 
 // Inserta el bloque b en la posición indx de la lista l si y solo si 0 <= indx <= n,
 // donde n es el largo de la lista l.

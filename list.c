@@ -2,10 +2,11 @@
 #include "list.h"
 #include "framework/mm.h"
 
-List* list_new()
+List* list_new(int dataSize)
 {
 
 	List* list = (List *)cg_malloc(sizeof(List));
+    list->dataSize = dataSize;
     list->elementCount = 0;
 	list->head = NULL;
 	list->tail = NULL;
@@ -20,28 +21,24 @@ void list_free(List* l)
 	cg_free(l);
 }
 
-void list_add(List* l, Block* b)
+void list_add(List* l, void* data)
 {	
+	Block* b = (Block *)cg_malloc(sizeof(Block));
+	b->data = cg_malloc(l->dataSize);
+	b->data = data;
+
 	//Si la lista no contiene elementos tail y head son el mismo bloque
-	printf("Element count %d\n", l->elementCount);
 	if(l->elementCount == 0)
 	{
-		printf("%s\n", "No elements");
         l->head = b;
-        printf("%s\n", "added head");
         l->tail = b;
-        printf("%s\n", "added tail");
     } else 
     {
-    	printf("%s\n", "Elements!");
         l->tail->next = b;
-        printf("%s\n", "Next");
         l->tail = b;
-        printf("%s\n", "tail!");
     }
 
 	l->elementCount++;
-	printf("%s\n", "yeeeey");
 }
 
 unsigned int list_size(List* l)

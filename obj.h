@@ -2,12 +2,7 @@
 #define OBJ_H
 
 #include "list.h"
-
-typedef struct {
-	float x;
-	float y;
-	float z;
-} Vertex;
+#include "point3D.h"
 
 typedef struct
 {
