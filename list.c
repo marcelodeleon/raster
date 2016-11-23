@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 #include "list.h"
 #include "framework/mm.h"
 
@@ -54,4 +55,32 @@ int list_empty(List* l)
 	}
 
 	return 0;
+}
+
+void* list_get_nth(List* list, int index)
+{
+	Block* current = list->head;
+	int count = 0;
+
+	// Asegura que el índice sea positivo
+	if(index < 0)
+	{
+		printf("%s\n", "Indice negativo");
+		assert(0);
+	}
+
+	// Chequea que la lista no esté vacía
+	if(list_empty(list) == 0)
+	{
+		printf("%s\n", "Emtpy list!");
+		assert(0);
+	}
+
+	while(count != index)
+	{
+		current = current->next;
+		count++;
+	}
+
+	return current->data;
 }

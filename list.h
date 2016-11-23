@@ -43,4 +43,7 @@ Block* list_remove(List* l, int indx);
 //Elimina la lista, liberando sus recursos, pero no los de sus bloques.
 void list_free(List* l);
 
+// Retorna el elemento en la posición index.
+void* list_get_nth(List* list, int index);
+
 #endif //LIST_H
