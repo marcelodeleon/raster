@@ -84,18 +84,9 @@ void face_print(Face* f)
     printf("Textures indexes: %d/%d/%d\n", f->textures[0], f->textures[1], f->textures[2]);
 }
 
-Obj* obj_load(char *filename)
+void stub_obj(Obj* obj)
 {
-	printf("%s\n", "Start obj parser");
-
-	//Initialize Obj struct
-	Obj* obj = (Obj *)cg_malloc(sizeof(Obj));
-	obj->vertexes = list_new(sizeof(Point3D));
-	obj->normals = list_new(sizeof(Point3D));
-	obj->textures = list_new(sizeof(Point2D));
-	obj->faces = list_new(sizeof(Face));
-
-	//VERTEXES
+    //VERTEXES
 	Point3D v1 = point3D_new( -0.500000, -0.500000, -0.500000);
 	Point3D v2 = point3D_new(  0.500000, -0.500000, -0.500000);
 	Point3D v3 = point3D_new(  0.500000, -0.500000,  0.500000);
@@ -197,6 +188,21 @@ Obj* obj_load(char *filename)
     {
     	printf("%f\n", texData[i]);
     }
+
+}
+
+Obj* obj_load(char *filename)
+{
+	printf("%s\n", "Start obj parser");
+
+	//Initialize Obj struct
+	Obj* obj = (Obj *)cg_malloc(sizeof(Obj));
+	obj->vertexes = list_new(sizeof(Point3D));
+	obj->normals = list_new(sizeof(Point3D));
+	obj->textures = list_new(sizeof(Point2D));
+	obj->faces = list_new(sizeof(Face));
+
+	stub_obj(obj);
 
     return obj;
 }
