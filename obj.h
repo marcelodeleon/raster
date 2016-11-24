@@ -10,6 +10,7 @@ typedef struct
     int vertexes[3];
     int normals[3];
     int textures[3];
+
 } Face;
 
 typedef struct
