@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
 
     glMatrixMode(GL_PROJECTION);
-    glViewport(0,0,cw, ch);
+    glViewport(0,9,cw, ch);
     glFrustum(-1,1,-1,1,1,1000);
 
     glEnable(GL_LIGHTING);
@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
     GLint uniform_tex = shader_get_unif_loc(gouraud, "tex");
 
     //Cargo la imagen de disco usando SDL_image
-    SDL_Surface* surface = IMG_Load("Models/knight_good.png");
+    SDL_Surface* surface = IMG_Load("Models/box.jpg");
     if (surface==NULL) { //Si falla la carga de la imagen, despliego el mensaje de error correspondiente y termino el programa.
         printf("Error: \"%s\"\n",SDL_GetError());
         return 1;
@@ -126,106 +126,106 @@ int main(int argc, char* argv[])
                     GL_TEXTURE_WRAP_T,
                     GL_REPEAT);
 
-	// while (1) //!done
-	// {
+	while (!done)
+	{
 
-	// 	SDL_Event event;
-	// 	while(SDL_PollEvent(&event))
-	// 	{
-	// 		switch (event.type)
-	// 		{
-	// 			case SDL_KEYDOWN:
- //                    key_pressed[event.key.keysym.sym] = 1;
- //                    if (event.key.keysym.sym == SDLK_p)
-	// 			    {
-	// 			        use_shader = !use_shader;
-	// 			        break;
-	// 			    }
-	// 			    else if (event.key.keysym.sym == SDLK_s)
-	// 			    {
-	// 			        specular = !specular;
-	// 			        break;
-	// 			    }
- //                    else if (event.key.keysym.sym == SDLK_z)
-	// 			    {
-	// 			        zbuff = !zbuff;
-	// 			        if(zbuff)
- //                            glEnable(GL_DEPTH_TEST);
- //                        else
- //                            glDisable(GL_DEPTH_TEST);
-	// 			        break;
-	// 			    }
-	// 			    else if (event.key.keysym.sym == SDLK_m)
-	// 			    {
-	// 			        wireframe = !wireframe;
-	// 			        if(wireframe)
- //                            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
- //                        else
- //                            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	// 			        break;
-	// 			    }
-	// 			    else if (event.key.keysym.sym == SDLK_b)
-	// 			    {
-	// 			        bfc = !bfc;
-	// 			        if(bfc)
-	// 			        {
- //                            glEnable(GL_CULL_FACE);
- //                            glCullFace(GL_BACK);
- //                            glFrontFace(GL_CW);
-	// 			        }
- //                        else
- //                            glDisable(GL_CULL_FACE);
-	// 			        break;
-	// 			    }
-	// 				else if (event.key.keysym.sym != SDLK_ESCAPE)
-	// 					break;
-	// 			case SDL_QUIT : done = 1;break;
-	// 			case SDL_KEYUP: key_pressed[event.key.keysym.sym] = 0;
+		SDL_Event event;
+		while(SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+				case SDL_KEYDOWN:
+                    key_pressed[event.key.keysym.sym] = 1;
+                    if (event.key.keysym.sym == SDLK_p)
+				    {
+				        use_shader = !use_shader;
+				        break;
+				    }
+				    else if (event.key.keysym.sym == SDLK_s)
+				    {
+				        specular = !specular;
+				        break;
+				    }
+                    else if (event.key.keysym.sym == SDLK_z)
+				    {
+				        zbuff = !zbuff;
+				        if(zbuff)
+                            glEnable(GL_DEPTH_TEST);
+                        else
+                            glDisable(GL_DEPTH_TEST);
+				        break;
+				    }
+				    else if (event.key.keysym.sym == SDLK_m)
+				    {
+				        wireframe = !wireframe;
+				        if(wireframe)
+                            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                        else
+                            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				        break;
+				    }
+				    else if (event.key.keysym.sym == SDLK_b)
+				    {
+				        bfc = !bfc;
+				        if(bfc)
+				        {
+                            glEnable(GL_CULL_FACE);
+                            glCullFace(GL_BACK);
+                            glFrontFace(GL_CW);
+				        }
+                        else
+                            glDisable(GL_CULL_FACE);
+				        break;
+				    }
+					else if (event.key.keysym.sym != SDLK_ESCAPE)
+						break;
+				case SDL_QUIT : done = 1;break;
+				case SDL_KEYUP: key_pressed[event.key.keysym.sym] = 0;
 
-	// 		}
-	// 	}
+			}
+		}
 
- //        glMatrixMode(GL_MODELVIEW);
- //        glLoadIdentity();
- //        glTranslatef(0.0f, 0.0f, -50.0f);
- //        glRotatef(pitch, 1.0f, 0.0f, 0.0f);
- //        glRotatef(ang, 0.0f, 1.0f, 0.0f);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glTranslatef(0.0f, 0.0f, pitch);
+        // glRotatef(pitch, 1.0f, 0.0f, 0.0f);
+        glRotatef(ang, 0.0f, 1.0f, 0.0f);
 
- //        glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+        glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
 
- //        if(key_pressed[SDLK_RIGHT]) ang += ang_vel;
- //        if(key_pressed[SDLK_LEFT]) ang -= ang_vel;
- //        if(key_pressed[SDLK_UP]) pitch += ang_vel;
- //        if(key_pressed[SDLK_DOWN]) pitch -= ang_vel;
+        if(key_pressed[SDLK_RIGHT]) ang += ang_vel;
+        if(key_pressed[SDLK_LEFT]) ang -= ang_vel;
+        if(key_pressed[SDLK_UP]) pitch += ang_vel;
+        if(key_pressed[SDLK_DOWN]) pitch -= ang_vel;
 
- //        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
- //        //Informo a OpenGL que para todas las operaciones a continuación utilice las texturas 2D cargadas
- //        glEnable(GL_TEXTURE_2D);
+        //Informo a OpenGL que para todas las operaciones a continuación utilice las texturas 2D cargadas
+        glEnable(GL_TEXTURE_2D);
 
- //        if(use_shader)
- //        {
- //            shader_use(gouraud);
- //            glUniform1i(uniform_especular, specular);
- //            //Le digo al shader que el sampler2D de nombre "tex" se corresponde con GL_TEXTURE0
- //            //que es donde cargué mi textura.
- //            glUniform1i(uniform_tex, 0);
- //            //Luego asocio la textura con el id "texture"
- //            glBindTexture(GL_TEXTURE_2D,texture);
- //            obj_render(box);
- //            shader_stop(gouraud);
- //        }
- //        else
- //        {
- //            glBindTexture(GL_TEXTURE_2D,texture);
- //            obj_render(box);
- //        }
+        if(use_shader)
+        {
+            shader_use(gouraud);
+            glUniform1i(uniform_especular, specular);
+            //Le digo al shader que el sampler2D de nombre "tex" se corresponde con GL_TEXTURE0
+            //que es donde cargué mi textura.
+            glUniform1i(uniform_tex, 0);
+            //Luego asocio la textura con el id "texture"
+            glBindTexture(GL_TEXTURE_2D,texture);
+            obj_render(box);
+            shader_stop(gouraud);
+        }
+        else
+        {
+            glBindTexture(GL_TEXTURE_2D,texture);
+            obj_render(box);
+        }
 
- //        cg_repaint();
-	// }
+        cg_repaint();
+	}
     obj_free(box);
- //    shader_free(gouraud);
- //    glDeleteTextures(1,&texture);
+    shader_free(gouraud);
+    glDeleteTextures(1,&texture);
 	// Liberar recursos:
 	cg_close();
 

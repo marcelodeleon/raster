@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <assert.h>
 #include "framework/mm.h"
+#include "GL/gl.h"
+
+float* vertexData;
+float* normalsData;
+float* texData;
 
 Face face_new(int v1, int n1, int t1, int v2, int n2, int t2, int v3, int n3, int t3)
 {
@@ -173,21 +178,21 @@ Obj* obj_load(char *filename)
 	face_print((Face *)list_get_nth(obj->faces, 0));
 
 	puts("vertex data for f1");
-    float* vertexData = face_get_point3D_data(obj->vertexes, f1.vertexes);
+    vertexData = face_get_point3D_data(obj->vertexes, f1.vertexes);
     for(int i=0; i < 9; i++)
     {
     	printf("%f\n", vertexData[i]);
     }
 
     puts("normals data for f1");
-    float* normalsData = face_get_point3D_data(obj->normals, f1.normals);
+    normalsData = face_get_point3D_data(obj->normals, f1.normals);
     for(int i=0; i < 9; i++)
     {
     	printf("%f\n", normalsData[i]);
     }
 
     puts("tex data for f1");
-    float* texData = face_get_point2D_data(obj->textures, f1.textures);
+    texData = face_get_point2D_data(obj->textures, f1.textures);
     for(int i=0; i < 6; i++)
     {
     	printf("%f\n", texData[i]);
@@ -198,11 +203,21 @@ Obj* obj_load(char *filename)
 
 void obj_render(Obj * obj)
 {
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, vertexData);
 
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glNormalPointer(GL_FLOAT,0, normalsData);
 
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glTexCoordPointer(2, GL_FLOAT, 0, texData);
 
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 
-    printf("%s\n", "obj render");
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
 }
 
 void obj_free (Obj * obj)
