@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
     glMateriali(GL_FRONT, GL_SHININESS, 16);
 
     float ang = 0.0f;
-    float pitch = 0.0f;
+    float pitch = -50.0f;
     float ang_vel = 1.0f;
 
     Obj* box = obj_load("Models/knight_texturas.obj");
