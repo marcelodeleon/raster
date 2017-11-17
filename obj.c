@@ -201,6 +201,8 @@ Obj* obj_new()
 	obj->normals = list_new(sizeof(Point3D));
 	obj->textures = list_new(sizeof(Point2D));
 	obj->faces = list_new(sizeof(Face));
+
+    return obj;
 }
 
 Obj* obj_load(char *filename)
