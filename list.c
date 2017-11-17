@@ -30,6 +30,7 @@ void list_add(List* l, void* data)
     {
         l->tail->next = b;
         l->tail = b;
+        l->tail->next = NULL;
     }
 
 	l->elementCount++;
