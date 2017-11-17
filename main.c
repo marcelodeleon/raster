@@ -229,11 +229,5 @@ int main(int argc, char* argv[])
 	// Liberar recursos:
 	cg_close();
 
-	// Ejemplo del modulo de Manejo de Memoria (MM):
-	int* pint = (int *)cg_malloc(10*sizeof(int));
-	printf("pint is a pointer: %p\n", pint);
-	cg_free(pint); // olvidarse de liberar este objeto produce un mensaje
-
-
 	return 0;
 }
