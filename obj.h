@@ -15,12 +15,14 @@ typedef struct
 
 typedef struct
 {
-    //char* name;
+    char* name;
     List* vertexes;
     List* normals;
     List* textures;
     List* faces;
 } Obj;
+
+Obj* obj_new();
 
 Obj* obj_load(char *filename);
 

@@ -86,6 +86,8 @@ void face_print(Face* f)
 
 void stub_obj(Obj* obj)
 {
+	obj->name = "box";
+
     //VERTEXES
 	Point3D v1 = point3D_new( -0.500000, -0.500000, -0.500000);
 	Point3D v2 = point3D_new(  0.500000, -0.500000, -0.500000);
@@ -191,17 +193,21 @@ void stub_obj(Obj* obj)
 
 }
 
-Obj* obj_load(char *filename)
+Obj* obj_new()
 {
-	printf("%s\n", "Start obj parser");
-
-	//Initialize Obj struct
 	Obj* obj = (Obj *)cg_malloc(sizeof(Obj));
+	obj->name = (char *) cg_malloc(sizeof(char) * 100);
 	obj->vertexes = list_new(sizeof(Point3D));
 	obj->normals = list_new(sizeof(Point3D));
 	obj->textures = list_new(sizeof(Point2D));
 	obj->faces = list_new(sizeof(Face));
+}
 
+Obj* obj_load(char *filename)
+{
+	printf("%s\n", "Start obj parser");
+
+	Obj* obj = obj_new();
 	stub_obj(obj);
 
     return obj;
@@ -228,6 +234,7 @@ void obj_render(Obj * obj)
 
 void obj_free (Obj * obj)
 {
+	cg_free(obj->name);
 	list_free(obj->vertexes);
 	list_free(obj->normals);
 	list_free(obj->textures);
