@@ -86,7 +86,7 @@ void face_print(Face* f)
 
 void stub_obj(Obj* obj)
 {
-	obj->name = "box";
+	/* obj->name = "box"; */
 
     //VERTEXES
 	Point3D v1 = point3D_new( -0.500000, -0.500000, -0.500000);
@@ -196,7 +196,7 @@ void stub_obj(Obj* obj)
 Obj* obj_new()
 {
 	Obj* obj = (Obj *)cg_malloc(sizeof(Obj));
-	obj->name = (char *) cg_malloc(sizeof(char) * 100);
+	/* obj->name = (char *) cg_malloc(sizeof(char) * 100); */
 	obj->vertexes = list_new(sizeof(Point3D));
 	obj->normals = list_new(sizeof(Point3D));
 	obj->textures = list_new(sizeof(Point2D));
@@ -236,7 +236,7 @@ void obj_render(Obj * obj)
 
 void obj_free (Obj * obj)
 {
-	cg_free(obj->name);
+	/* cg_free(obj->name); */
 	list_free(obj->vertexes);
 	list_free(obj->normals);
 	list_free(obj->textures);
