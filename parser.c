@@ -6,13 +6,15 @@
 #include "framework/mm.h"
 
 
-char **tokenize(const char *input, const char *delimiter) {
+char **tokenize(const char *input, const char *delimiter)
+{
     char *str = strdup(input);
     int count = 0;
     int capacity = 10;
     char **result = cg_malloc(capacity * sizeof(*result));
     char *tok = strtok(str, delimiter);
-    while (1) {
+    while (1)
+    {
         if (count >= capacity)
             result = realloc(result, (capacity *= 2) * sizeof(*result));
 
@@ -26,7 +28,8 @@ char **tokenize(const char *input, const char *delimiter) {
     return result;
 }
 
-Point3D *make_point3D_from_tokens(char **tokens) {
+Point3D *make_point3D_from_tokens(char **tokens)
+{
     Point3D *p = (Point3D *) cg_malloc(sizeof(Point3D));
     p->x = atof(*(tokens + 1));
     p->y = atof(*(tokens + 2));
@@ -34,14 +37,16 @@ Point3D *make_point3D_from_tokens(char **tokens) {
     return p;
 }
 
-Point2D *make_point2D_from_tokens(char **tokens) {
+Point2D *make_point2D_from_tokens(char **tokens)
+{
     Point2D *p = (Point2D *) cg_malloc(sizeof(Point2D));
     p->x = atof(*(tokens + 1));
     p->y = atof(*(tokens + 2));
     return p;
 }
 
-Face *make_face_from_tokens(char **tokens) {
+Face *make_face_from_tokens(char **tokens)
+{
     Face *facePtr = (Face *) cg_malloc(sizeof(Face));
 
     char **group0 = tokenize(*(tokens + 1), "/");
@@ -63,45 +68,67 @@ Face *make_face_from_tokens(char **tokens) {
     return facePtr;
 }
 
-void print_head(List *l) {
+void print_head(List *l)
+{
     Block *block = (Block *) l->head;
-    if (block != NULL) {
+    if (block != NULL)
+    {
         Point3D *headVertex = (Point3D *) block->data;
         point3D_print(headVertex);
-    } else {
+    }
+    else
+    {
         puts("NULL\n");
     }
 }
 
-Obj *parse_obj(char* filename) {
+Obj *parse_obj(char* filename)
+{
     int KB = 1024;
     FILE *pFile;
     char line[1 * KB];
 
     pFile = fopen(filename, "r");
-    if (pFile == NULL) perror("Error opening file");
-    else {
+    if (pFile == NULL)
+    {
+        perror("Error opening file");
+        return 0;
+    }
+    else
+    {
         Obj *obj = (Obj *) obj_new();
-        while (fgets(line, 1 * KB, pFile) != NULL) {
+        while (fgets(line, 1 * KB, pFile) != NULL)
+        {
             char **tokens = tokenize(line, " ");
-            if (strcmp(*tokens, "o") == 0) {
+            if (strcmp(*tokens, "o") == 0)
+            {
                 char *objData = *(tokens + 1);
                 char **objTokens = tokenize(objData, "/");
                 obj->name = *(objTokens + 1);
-            } else if (strcmp(*tokens, "v") == 0) {
+            }
+            else if (strcmp(*tokens, "v") == 0)
+            {
                 Point3D *vertexPtr = make_point3D_from_tokens(tokens);
                 list_add(obj->vertexes, vertexPtr);
-            } else if (strcmp(*tokens, "vn") == 0) {
+            }
+            else if (strcmp(*tokens, "vn") == 0)
+            {
                 Point3D *normalPtr = make_point3D_from_tokens(tokens);
                 list_add(obj->normals, normalPtr);
-            } else if (strcmp(*tokens, "vt") == 0) {
+            }
+            else if (strcmp(*tokens, "vt") == 0)
+            {
                 Point2D *texturePtr = make_point2D_from_tokens(tokens);
                 list_add(obj->textures, texturePtr);
-            } else if (strcmp(*tokens, "f") == 0) {
+            }
+            else if (strcmp(*tokens, "f") == 0)
+            {
                 Face *facePtr = make_face_from_tokens(tokens);
                 list_add(obj->faces, facePtr);
-            } else {
-                // Ignore comments and blank and invalid lines.
+            }
+            else
+            {
+                // Ignorar comentarios, lineas en blanco y lineas invalidas.
             }
         }
         fclose(pFile);
