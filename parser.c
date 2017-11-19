@@ -24,7 +24,7 @@ char **tokenize(const char *input, const char *delimiter)
 
         tok = strtok(NULL, delimiter);
     }
-    free(str);
+    cg_free(str);
     return result;
 }
 
@@ -65,6 +65,11 @@ Face *make_face_from_tokens(char **tokens)
     facePtr->normals[2] = atoi(group2[1]);
     facePtr->textures[2] = atoi(group2[2]);
 
+    // Liberar recursos.
+    cg_free(group0);
+    cg_free(group1);
+    cg_free(group2);
+
     return facePtr;
 }
 
@@ -104,7 +109,10 @@ Obj *parse_obj(char* filename)
             {
                 char *objData = *(tokens + 1);
                 char **objTokens = tokenize(objData, "/");
-                obj->name = *(objTokens + 1);
+                /* obj->name = *(objTokens + 1); */
+
+                cg_free(objData);
+                cg_free(objTokens);
             }
             else if (strcmp(*tokens, "v") == 0)
             {
@@ -130,8 +138,13 @@ Obj *parse_obj(char* filename)
             {
                 // Ignorar comentarios, lineas en blanco y lineas invalidas.
             }
+
+            // Liberar recursos.
+            cg_free(tokens);
         }
+
         fclose(pFile);
+        
         return obj;
     }
 }
