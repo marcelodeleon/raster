@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
     GLint uniform_tex = shader_get_unif_loc(gouraud, "tex");
 
     //Cargo la imagen de disco usando SDL_image
-    SDL_Surface* surface = IMG_Load("Models/box.jpg");
+    SDL_Surface* surface = IMG_Load("Models/knight.png");
     if (surface==NULL) { //Si falla la carga de la imagen, despliego el mensaje de error correspondiente y termino el programa.
         printf("Error: \"%s\"\n",SDL_GetError());
         return 1;
