@@ -47,23 +47,23 @@ Point2D *make_point2D_from_tokens(char **tokens)
 
 Face *make_face_from_tokens(char **tokens)
 {
-    Face *facePtr = (Face *) cg_malloc(sizeof(Face));
-
     char **group0 = tokenize(*(tokens + 1), "/");
     char **group1 = tokenize(*(tokens + 2), "/");
     char **group2 = tokenize(*(tokens + 3), "/");
 
-    facePtr->vertexes[0] = atoi(group0[0]);
-    facePtr->normals[0] = atoi(group0[1]);
-    facePtr->textures[0] = atoi(group0[2]);
+    int v1 = atoi(group0[0]);
+    int n1 = atoi(group0[1]);
+    int t1 = atoi(group0[2]);
 
-    facePtr->vertexes[1] = atoi(group1[0]);
-    facePtr->normals[1] = atoi(group1[1]);
-    facePtr->textures[1] = atoi(group1[2]);
+    int v2 = atoi(group1[0]);
+    int n2 = atoi(group1[1]);
+    int t2 = atoi(group1[2]);
 
-    facePtr->vertexes[2] = atoi(group2[0]);
-    facePtr->normals[2] = atoi(group2[1]);
-    facePtr->textures[2] = atoi(group2[2]);
+    int v3 = atoi(group2[0]);
+    int n3 = atoi(group2[1]);
+    int t3 = atoi(group2[2]);
+
+    Face *facePtr = face_new(v1, n1, t1, v2, n2, t2, v3, n3, t3);
 
     // Liberar recursos.
     cg_free(group0);
