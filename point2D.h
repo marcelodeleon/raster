@@ -6,7 +6,7 @@ typedef struct {
 	float y;
 } Point2D;
 
-Point2D point2D_new(float x, float y);
+Point2D* point2D_new(float x, float y);
 
 void point2D_print(Point2D* p);
 

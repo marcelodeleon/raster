@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "obj.h"
+#include "point2D.h"
 #include "point3D.h"
 #include "framework/mm.h"
 
@@ -41,9 +42,10 @@ Point3D *make_point3D_from_tokens(char **tokens)
 
 Point2D *make_point2D_from_tokens(char **tokens)
 {
-    Point2D *p = (Point2D *) cg_malloc(sizeof(Point2D));
-    p->x = atof(*(tokens + 1));
-    p->y = atof(*(tokens + 2));
+    float x = atof(*(tokens + 1));
+    float y = atof(*(tokens + 2));
+
+    Point2D *p = point2D_new(x, y);
     return p;
 }
 
