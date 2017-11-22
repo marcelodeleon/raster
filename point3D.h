@@ -7,7 +7,7 @@ typedef struct {
 	float z;
 } Point3D;
 
-Point3D point3D_new(float x, float y, float z);
+Point3D* point3D_new(float x, float y, float z);
 
 void point3D_print(Point3D* p);
 

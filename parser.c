@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "obj.h"
+#include "point3D.h"
 #include "framework/mm.h"
 
 
@@ -30,10 +31,11 @@ char **tokenize(const char *input, const char *delimiter)
 
 Point3D *make_point3D_from_tokens(char **tokens)
 {
-    Point3D *p = (Point3D *) cg_malloc(sizeof(Point3D));
-    p->x = atof(*(tokens + 1));
-    p->y = atof(*(tokens + 2));
-    p->z = atof(*(tokens + 3));
+    float x = atof(*(tokens + 1));
+    float y = atof(*(tokens + 2));
+    float z = atof(*(tokens + 3));
+
+    Point3D *p = point3D_new(x, y, z);
     return p;
 }
 
