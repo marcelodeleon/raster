@@ -4,14 +4,7 @@
 #include "list.h"
 #include "point3D.h"
 #include "point2D.h"
-
-typedef struct
-{
-    int vertexes[3];
-    int normals[3];
-    int textures[3];
-
-} Face;
+#include "face.h"
 
 typedef struct
 {
@@ -21,8 +14,6 @@ typedef struct
     List* textures;
     List* faces;
 } Obj;
-
-Face* face_new(int v1, int n1, int t1, int v2, int n2, int t2, int v3, int n3, int t3);
 
 Obj* obj_new();
 

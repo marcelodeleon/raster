@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "obj.h"
+#include "face.h"
 #include "point2D.h"
 #include "point3D.h"
 #include "framework/mm.h"
