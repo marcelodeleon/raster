@@ -5,6 +5,7 @@
 #include "point3D.h"
 #include "point2D.h"
 #include "face.h"
+#include "vertexarray.h"
 
 typedef struct
 {
@@ -13,6 +14,7 @@ typedef struct
     List* normals;
     List* textures;
     List* faces;
+    VertexArray* vertexArray;
 } Obj;
 
 Obj* obj_new();

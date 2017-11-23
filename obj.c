@@ -6,21 +6,8 @@
 #include "framework/mm.h"
 #include "GL/gl.h"
 
-// Arrays utilizados para dibujar los obj utilizando Vertex Arrays.
-float* vertexData;
-float* normalsData;
-float* texData;
-
 void load_data_for_vertex_arrays(Obj *obj)
 {
-    int facesCount = list_size(obj->faces);
-    // Asinga la memoria necesaria para guardar todos los vertices. Hay Faces*3*3 vertices.
-    vertexData = (float *)cg_malloc(sizeof(float)*facesCount*3*3);
-    // Asinga la memoria necesaria para guardar todas los normales. Hay Faces*3*3 normales.
-    normalsData = (float *)cg_malloc(sizeof(float)*facesCount*3*3);
-    // Asigna la memoria necesaria para guardar las texturas. Hay Faces*3*2 texturas.
-    texData = (float *)cg_malloc(sizeof(float)*facesCount*3*2);
-
     Point3D* v1;
     Point3D* v2;
     Point3D* v3;
@@ -43,7 +30,6 @@ void load_data_for_vertex_arrays(Obj *obj)
     int texIndex = 0; // Contador utilizado para cargar las texturas a texData.
     Face* currentFaceData;
     Block* currentFace = (Block *) obj->faces->head;
-    printf("Vertex Count: %d\n", facesCount*3*3);
     while(currentFace != NULL)
     {
         currentFaceData = (Face *) currentFace->data;
@@ -57,17 +43,17 @@ void load_data_for_vertex_arrays(Obj *obj)
         v2 = (Point3D *)list_get_nth(obj->vertexes, v2Index);
         v3 = (Point3D *)list_get_nth(obj->vertexes, v3Index);
 
-        vertexData[i] = v1->x;
-        vertexData[i+1] = v1->y;
-        vertexData[i+2] = v1->z;
+        obj->vertexArray->vertexData[i] = v1->x;
+        obj->vertexArray->vertexData[i+1] = v1->y;
+        obj->vertexArray->vertexData[i+2] = v1->z;
 
-        vertexData[i+3] = v2->x;
-        vertexData[i+4] = v2->y;
-        vertexData[i+5] = v2->z;
+        obj->vertexArray->vertexData[i+3] = v2->x;
+        obj->vertexArray->vertexData[i+4] = v2->y;
+        obj->vertexArray->vertexData[i+5] = v2->z;
 
-        vertexData[i+6] = v3->x;
-        vertexData[i+7] = v3->y;
-        vertexData[i+8] = v3->z;
+        obj->vertexArray->vertexData[i+6] = v3->x;
+        obj->vertexArray->vertexData[i+7] = v3->y;
+        obj->vertexArray->vertexData[i+8] = v3->z;
 
         // Carga normales de la cara a normalsData.
         n1Index = currentFaceData->normals[0];
@@ -78,17 +64,17 @@ void load_data_for_vertex_arrays(Obj *obj)
         n2 = (Point3D *)list_get_nth(obj->normals, n2Index);
         n3 = (Point3D *)list_get_nth(obj->normals, n3Index);
 
-        normalsData[i] = n1->x;
-        normalsData[i+1] = n1->y;
-        normalsData[i+2] = n1->z;
+        obj->vertexArray->normalsData[i] = n1->x;
+        obj->vertexArray->normalsData[i+1] = n1->y;
+        obj->vertexArray->normalsData[i+2] = n1->z;
 
-        normalsData[i+3] = n2->x;
-        normalsData[i+4] = n2->y;
-        normalsData[i+5] = n2->z;
+        obj->vertexArray->normalsData[i+3] = n2->x;
+        obj->vertexArray->normalsData[i+4] = n2->y;
+        obj->vertexArray->normalsData[i+5] = n2->z;
 
-        normalsData[i+6] = n3->x;
-        normalsData[i+7] = n3->y;
-        normalsData[i+8] = n3->z;
+        obj->vertexArray->normalsData[i+6] = n3->x;
+        obj->vertexArray->normalsData[i+7] = n3->y;
+        obj->vertexArray->normalsData[i+8] = n3->z;
 
         // Carga texturas de la cara a texData.
         t1Index = currentFaceData->textures[0];
@@ -99,14 +85,14 @@ void load_data_for_vertex_arrays(Obj *obj)
         t2 = (Point2D *)list_get_nth(obj->textures, t2Index);
         t3 = (Point2D *)list_get_nth(obj->textures, t3Index);
 
-        texData[texIndex] = t1->x;
-        texData[texIndex+1] = t1->y;
+        obj->vertexArray->texData[texIndex] = t1->x;
+        obj->vertexArray->texData[texIndex+1] = t1->y;
 
-        texData[texIndex+2] = t2->x;
-        texData[texIndex+3] = t2->y;
+        obj->vertexArray->texData[texIndex+2] = t2->x;
+        obj->vertexArray->texData[texIndex+3] = t2->y;
 
-        texData[texIndex+4] = t3->x;
-        texData[texIndex+5] = t3->y;
+        obj->vertexArray->texData[texIndex+4] = t3->x;
+        obj->vertexArray->texData[texIndex+5] = t3->y;
 
         i+=9; // Aumentamos el contador en 9 ya que cada face tiene 3 vertices con 3 coordenadas cada uno.
         // Aumentamos el contador en 6, cada face tiene 3 vertices con 2 coordenadas de textura cada uno.
@@ -154,6 +140,9 @@ Obj* obj_load(char *filename)
     printf("Normals size is: %d\n", list_size(obj->normals));
     printf("Faces size is: %d\n", list_size(obj->faces));
 
+    // Hasta este momento no se sabia la cuenta de las faces.
+    // A partir de ahora puedo cargar la estructura VertexArray.
+    obj->vertexArray = vertex_array_new(list_size(obj->faces));
     load_data_for_vertex_arrays(obj);
 
     return obj;
@@ -163,13 +152,13 @@ void obj_render(Obj *obj)
 {
     int vertexCount = list_size(obj->faces)*3;
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertexData);
+    glVertexPointer(3, GL_FLOAT, 0, obj->vertexArray->vertexData);
 
     glEnableClientState(GL_NORMAL_ARRAY);
-    glNormalPointer(GL_FLOAT, 0, normalsData);
+    glNormalPointer(GL_FLOAT, 0, obj->vertexArray->normalsData);
 
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glTexCoordPointer(2, GL_FLOAT, 0, texData);
+    glTexCoordPointer(2, GL_FLOAT, 0, obj->vertexArray->texData);
 
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 
@@ -178,17 +167,13 @@ void obj_render(Obj *obj)
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void obj_free (Obj *obj)
+void obj_free (Obj * obj)
 {
-    // Libero arrays utilizados para dibujar los obj.
-    cg_free(vertexData);
-    cg_free(normalsData);
-    cg_free(texData);
-
 	/* cg_free(obj->name); */
 	list_free(obj->vertexes);
 	list_free(obj->normals);
 	list_free(obj->textures);
 	list_free(obj->faces);
+	vertex_array_free(obj->vertexArray);
 	cg_free(obj);
 }
