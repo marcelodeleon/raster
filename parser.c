@@ -8,7 +8,7 @@
 #include "framework/mm.h"
 
 
-char **tokenize(const char *input, const char *delimiter)
+char** tokenize(const char *input, const char *delimiter)
 {
     char *str = strdup(input);
     int count = 0;
@@ -30,7 +30,7 @@ char **tokenize(const char *input, const char *delimiter)
     return result;
 }
 
-Point3D *make_point3D_from_tokens(char **tokens)
+Point3D* make_point3D_from_tokens(char **tokens)
 {
     float x = atof(*(tokens + 1));
     float y = atof(*(tokens + 2));
@@ -40,7 +40,7 @@ Point3D *make_point3D_from_tokens(char **tokens)
     return p;
 }
 
-Point2D *make_point2D_from_tokens(char **tokens)
+Point2D* make_point2D_from_tokens(char **tokens)
 {
     float x = atof(*(tokens + 1));
     float y = atof(*(tokens + 2));
@@ -49,7 +49,7 @@ Point2D *make_point2D_from_tokens(char **tokens)
     return p;
 }
 
-Face *make_face_from_tokens(char **tokens)
+Face* make_face_from_tokens(char **tokens)
 {
     char **group0 = tokenize(*(tokens + 1), "/");
     char **group1 = tokenize(*(tokens + 2), "/");
@@ -91,7 +91,7 @@ void print_head(List *l)
     }
 }
 
-Obj *parse_obj(char* filename)
+Obj* parse_obj(char* filename)
 {
     int KB = 1024;
     FILE *pFile;

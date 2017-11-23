@@ -159,7 +159,7 @@ Obj* obj_load(char *filename)
     return obj;
 }
 
-void obj_render(Obj * obj)
+void obj_render(Obj *obj)
 {
     int vertexCount = list_size(obj->faces)*3;
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -178,7 +178,7 @@ void obj_render(Obj * obj)
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void obj_free (Obj * obj)
+void obj_free (Obj *obj)
 {
     // Libero arrays utilizados para dibujar los obj.
     cg_free(vertexData);
