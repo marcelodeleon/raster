@@ -12,38 +12,8 @@
 
 #include <SDL/SDL_image.h>
 
-int main(int argc, char* argv[])
+void setup_light()
 {
-    // Crear una ventana de 500x500 pixels:
-	int cw = 900;
-	int ch = 900;
-
-	cg_init(cw, ch, NULL);
-
-#ifdef WIN32
-    freopen( "CON", "w", stdout );
-	freopen( "CON", "w", stderr );
-
-	GLenum err= glewInit();
-	if(err!=GLEW_OK)
-	{
-		//problem: glewInit failed, something is seriously wrong
-		printf("GLEW Error: %s\n", glewGetErrorString(err));
-		return -1;
-	}
-#endif
-    printf("GL Version: %s\n", glGetString(GL_VERSION));
-    printf("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-    glClearColor(0,0,1,1);
-    // Actualizar la pantalla:
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-
-    glMatrixMode(GL_PROJECTION);
-    glViewport(0,9,cw, ch);
-    glFrustum(-1,1,-1,1,1,1000);
-
     glEnable(GL_LIGHTING);
 
     //glEnable(GL_NORMALIZE);
@@ -61,10 +31,46 @@ int main(int argc, char* argv[])
     glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
     glMaterialfv(GL_FRONT, GL_SPECULAR, ls);
     glMateriali(GL_FRONT, GL_SHININESS, 16);
+}
 
+int main(int argc, char* argv[])
+{
+    // Crear una ventana de 900x900 pixels:
+	int cw = 900;
+	int ch = 900;
+
+	cg_init(cw, ch, "Rasterizador - Marcelo de León");
+
+#ifdef WIN32
+    freopen( "CON", "w", stdout );
+    freopen( "CON", "w", stderr );
+
+	GLenum err= glewInit();
+	if(err!=GLEW_OK)
+	{
+		//problem: glewInit failed, something is seriously wrong
+		printf("GLEW Error: %s\n", glewGetErrorString(err));
+		return -1;
+	}
+#endif
+    printf("GL Version: %s\n", glGetString(GL_VERSION));
+    printf("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    glClearColor(0,0,1,1);
+    // Actualizar la pantalla:
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glMatrixMode(GL_PROJECTION);
+    glViewport(0,0,cw, ch);
+    glFrustum(-1,1,-1,1,1,1000);
+
+    // Inicializacoión de variables para el manejo de la rotación.
     float ang = 0.0f;
     float pitch = -50.0f;
     float ang_vel = 1.0f;
+
+    // Carga de la luz.
+    setup_light();
 
     Obj* box = obj_load("Models/knight_texturas.obj");
 	char done = 0;
@@ -77,6 +83,8 @@ int main(int argc, char* argv[])
 
     char use_shader = 0;
     char specular = 0;
+
+    // Configuración de Goraud shader.
     Shader gouraud = shader_new("shaders/gouraud_vp.glsl", "shaders/gouraud_fp.glsl");
     GLint uniform_especular = shader_get_unif_loc(gouraud, "especular");
     GLint uniform_tex = shader_get_unif_loc(gouraud, "tex");
@@ -88,15 +96,15 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    // Configuración de Textura.
     GLuint texture;
-    //Creo un espacio para alojar una textura en memoria de video
     glGenTextures(1,&texture);
-    //Activo la textura nro 0
     glActiveTexture(GL_TEXTURE0);
-    //Habilito la carga para la textura recien creada
+    
+    // Habilito la carga para la textura recien creada
     glBindTexture(GL_TEXTURE_2D,texture);
 
-    //Cargo los datos de la imagen en la textura.
+    // Carga de datos de imagen en textura.
     glTexImage2D(GL_TEXTURE_2D,
                  0,
                  GL_RGBA,
@@ -105,20 +113,23 @@ int main(int argc, char* argv[])
                  0,
                  GL_RGB,GL_UNSIGNED_BYTE,
                  surface->pixels);
-    //Luego de copiada la imagen a memoria de video, puedo liberarla sin problemas
+
+    // Liberar recursos.
     SDL_FreeSurface(surface);
 
-    //Seteo el filtro a usar cuando se mapea la textura a una superficie mas chica (GL_LINEAR = filtro bilineal)
+    // El obligatorio debe implementar mapeo de texturas con filtro bilineal (GL_LINEAR).
+    // Configuración para superficies más chicas.
     glTexParameteri(GL_TEXTURE_2D,
                     GL_TEXTURE_MIN_FILTER,
                     GL_LINEAR);
-    //Seteo el filtro a usar cuando se mapea la textura a una superficie mas grande (GL_LINEAR = filtro bilineal)
+
+    // Configuración para superficies más grandes.
     glTexParameteri(GL_TEXTURE_2D,
                     GL_TEXTURE_MAG_FILTER,
                     GL_LINEAR);
 
-    //Seteo el comportamiento cuando encuentro coordenadas de textura fuera del rango [0,1]
-    //GL_REPEAT es el comportamiento por defecto.
+
+    // Configuración para el manejo de texels fuera del rango [0, 1].
     glTexParameteri(GL_TEXTURE_2D,
                     GL_TEXTURE_WRAP_S,
                     GL_REPEAT);
