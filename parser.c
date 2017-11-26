@@ -113,7 +113,7 @@ Obj* parse_obj(char* filename)
             {
                 char *objData = *(tokens + 1);
                 char **objTokens = tokenize(objData, "/");
-                /* obj->name = *(objTokens + 1); */
+                obj->name = *(objTokens + 1);
 
                 cg_free(objData);
                 cg_free(objTokens);

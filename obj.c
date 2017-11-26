@@ -104,24 +104,16 @@ void load_data_for_vertex_arrays(Obj *obj)
 
 void obj_print(Obj* obj)
 {
-    printf("%s\n", "Vertexes:");
-    Block* currentVertex = (Block *) obj->vertexes->head;
-    int i = 0;
-    while(currentVertex != NULL)
-    {
-        Point3D* vertex = (Point3D *) currentVertex->data;
-
-        printf("%s%d\n", "Vertex ", i);
-        point3D_print(vertex);
-        currentVertex = currentVertex->next;
-        i++;
-    }
+    printf("Printing obj %s\n", obj->name);
+    printf("Vertex size is: %d\n", list_size(obj->vertexes));
+    printf("Normals size is: %d\n", list_size(obj->normals));
+    printf("Faces size is: %d\n", list_size(obj->faces));
 }
 
 Obj* obj_new()
 {
 	Obj* obj = (Obj *)cg_malloc(sizeof(Obj));
-	/* obj->name = (char *) cg_malloc(sizeof(char) * 100); */
+	obj->name = (char *) cg_malloc(sizeof(char) * 100);
 	obj->vertexes = list_new(sizeof(Point3D));
 	obj->normals = list_new(sizeof(Point3D));
 	obj->textures = list_new(sizeof(Point2D));
@@ -135,10 +127,7 @@ Obj* obj_load(char *filename)
 	printf("%s\n", "Start obj parser");
 
     Obj* obj = parse_obj(filename);
-
-    printf("Vertex size is: %d\n", list_size(obj->vertexes));
-    printf("Normals size is: %d\n", list_size(obj->normals));
-    printf("Faces size is: %d\n", list_size(obj->faces));
+    obj_print(obj);
 
     // Hasta este momento no se sabia la cuenta de las faces.
     // A partir de ahora puedo cargar la estructura VertexArray.
@@ -169,7 +158,7 @@ void obj_render(Obj *obj)
 
 void obj_free (Obj * obj)
 {
-	/* cg_free(obj->name); */
+	cg_free(obj->name);
 	list_free(obj->vertexes);
 	list_free(obj->normals);
 	list_free(obj->textures);
