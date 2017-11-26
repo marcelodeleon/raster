@@ -65,6 +65,8 @@ int main(int argc, char* argv[])
     glFrustum(-1,1,-1,1,1,1000);
 
     // Inicializacoión de variables para el manejo de la rotación.
+    float ang_y = 0.0f;
+    float ang_z = 0.0f;
     float ang = 0.0f;
     float pitch = -50.0f;
     float ang_vel = 1.0f;
@@ -135,7 +137,7 @@ int main(int argc, char* argv[])
                     GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D,
                     GL_TEXTURE_WRAP_T,
-                    GL_REPEAT);
+                   GL_REPEAT);
 
 	while (!done)
 	{
@@ -198,16 +200,22 @@ int main(int argc, char* argv[])
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+
+        // Defino traslación del modelo.
         glTranslatef(0.0f, 0.0f, pitch);
-        // glRotatef(pitch, 1.0f, 0.0f, 0.0f);
-        glRotatef(ang, 0.0f, 1.0f, 0.0f);
+        
+        // Defino rotación del modelo.
+        glRotatef(ang_y, 0.0f, 1.0f, 0.0f); 
+        glRotatef(ang_z, 0.0f, 0.0f, 1.0f);
 
         glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
 
-        if(key_pressed[SDLK_RIGHT]) ang += ang_vel;
-        if(key_pressed[SDLK_LEFT]) ang -= ang_vel;
-        if(key_pressed[SDLK_UP]) pitch += ang_vel;
-        if(key_pressed[SDLK_DOWN]) pitch -= ang_vel;
+        if(key_pressed[SDLK_RIGHT]) ang_y += ang_vel;
+        if(key_pressed[SDLK_LEFT]) ang_y -= ang_vel;
+        if(key_pressed[SDLK_UP]) ang_z += ang_vel;
+        if(key_pressed[SDLK_DOWN]) ang_z -= ang_vel;
+        if(key_pressed[SDLK_o]) pitch -= ang_vel;
+        if(key_pressed[SDLK_l]) pitch += ang_vel;
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
