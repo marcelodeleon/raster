@@ -77,6 +77,7 @@ int main(int argc, char* argv[])
     Obj* box = obj_load("Models/knight_texturas.obj");
 	char done = 0;
 	char wireframe = 0;
+	char light = 0;
 	char bfc = 0;
 	glEnable(GL_DEPTH_TEST);
 	char zbuff = 1;
@@ -177,6 +178,15 @@ int main(int argc, char* argv[])
                             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 				        break;
 				    }
+                    else if (event.key.keysym.sym == SDLK_l)
+                    {
+                        light = !light;
+                        if(light)
+                            glEnable(GL_LIGHTING);
+                        else
+                            glDisable(GL_LIGHTING);
+                        break;
+                    }
 				    else if (event.key.keysym.sym == SDLK_b)
 				    {
 				        bfc = !bfc;
@@ -214,8 +224,8 @@ int main(int argc, char* argv[])
         if(key_pressed[SDLK_LEFT]) ang_y -= ang_vel;
         if(key_pressed[SDLK_UP]) ang_z += ang_vel;
         if(key_pressed[SDLK_DOWN]) ang_z -= ang_vel;
-        if(key_pressed[SDLK_o]) pitch -= ang_vel;
-        if(key_pressed[SDLK_l]) pitch += ang_vel;
+        if(key_pressed[SDLK_i]) pitch -= ang_vel;
+        if(key_pressed[SDLK_o]) pitch += ang_vel;
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
