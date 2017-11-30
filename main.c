@@ -1,6 +1,8 @@
 #include "framework/canvas.h"
 #include "framework/mm.h"
 
+#include "point3D.h"
+
 #ifdef WIN32
 #include "glew.h"
 #else
@@ -74,7 +76,7 @@ int main(int argc, char* argv[])
     // Carga de la luz.
     setup_light();
 
-    Obj* box = obj_load("Models/knight_texturas.obj");
+    Obj* obj = obj_load("Models/knight_texturas.obj");
 	char done = 0;
 	char wireframe = 0;
 	char light = 0;
@@ -241,18 +243,20 @@ int main(int argc, char* argv[])
             glUniform1i(uniform_tex, 0);
             //Luego asocio la textura con el id "texture"
             glBindTexture(GL_TEXTURE_2D,texture);
-            obj_render(box);
+            obj_render(obj);
             shader_stop(gouraud);
         }
         else
         {
             glBindTexture(GL_TEXTURE_2D,texture);
-            obj_render(box);
+            obj_render(obj);
         }
 
         cg_repaint();
 	}
-    obj_free(box);
+
+
+    obj_free(obj);
     shader_free(gouraud);
     glDeleteTextures(1,&texture);
 	// Liberar recursos:

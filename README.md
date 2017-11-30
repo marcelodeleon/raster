@@ -9,6 +9,8 @@ El rasterizador implementado cumple con todas las características obligatorias:
     - Mapeo de texturas con filtrado bilineal.
     - Rotación controlable con las flechas del teclado.
 
+El obligatorio no implementa características opcionales.
+
 ## Entorno compatible.
 El obligatorio es autocontenido y compatible con Linux.
 Desarrollado en la máquina virtual provista por la cátedra, utilizando el Framework de Texturas.
