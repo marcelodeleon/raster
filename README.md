@@ -1,32 +1,28 @@
-# Razterizador.
+# Raster.
 
-Obligatorio realizado por Marcelo de León.
-El rasterizador implementado cumple con todas las características obligatorias:
-    - Rasterización de modelos OBJ (Knight configurado).
-    - Malla de alambre.
-    - Soporte de una luz puntual.
-    - Sombreado por medio de Goraud shading.
-    - Mapeo de texturas con filtrado bilineal.
-    - Rotación controlable con las flechas del teclado.
+Implementation of a graphic raster with the following characteristics:
+    - Rasterization of OBJ models.
+    - Wireframes.
+    - Support for one point light.
+    - Implementation of Goraud shading.
+    - Texture mapping with bilineal filtering.
+    - Rotation of models.
 
-El obligatorio no implementa características opcionales.
+## Environment.
+For the time being only working in Linux.
 
-## Entorno compatible.
-El obligatorio es autocontenido y compatible con Linux.
-Desarrollado en la máquina virtual provista por la cátedra, utilizando el Framework de Texturas.
+To execute, run ```./run.sh``` at the project root.
 
-Para ejecutar, simplemente correr el comando ```./run.sh``` en la raíz del proyecto.
+## Keyboard Configuration.
 
-## Configuración del teclado.
-
-_Activar/Desactivar_
+_Enable/Disable_
 m -> Wireframe
 p -> Goraud shader
 s -> Specular
 z -> Z-buffer
 b -> Backface culling
-l -> Luz
+l -> Light
 
-Rotación del modelo utilizando las flechas del teclado.
-Traslacion hacia atrás -> i
-Traslacion hacia adelante -> o
+Rotate the model with the arrow keys.
+Translate backwards -> i
+Translate forward -> o
